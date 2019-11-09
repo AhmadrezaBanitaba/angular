@@ -1,0 +1,96 @@
+<nav>
+<a routerLink="/" routerLinkActive="active">Current Order</a>
+<a routerLink="/order-history" routerLinkActive="active">Order history</a>
+
+</nav>
+<!-- Where router should display a view -->
+<router-outlet></router-outlet>
+<div ng-view></div>
+
+
+
+<br><hr><br>
+<div class="container">
+<form #myForm="ngForm" class="form-group">
+        <div class="form-group">
+                first name
+                <input type="text" class="form-control" style="width:40%" pattern="[a-zA-Z-' ]*" minlength="3" required 
+               [(ngModel)]="_firstName" name="firstName" #myFirstName="ngModel" >
+               <p class="alert alert-danger" *ngIf="myFirstName?.errors?.required && myForm.submitted">This field is required.</p>
+               <p class="alert alert-danger" *ngIf="myFirstName?.errors?.pattern && myForm.submitted"> Only alphabetical characters are allowed.</p>
+               <p class="alert alert-danger" *ngIf="myFirstName?.errors?.minlength && myForm.submitted">This entry must have at least three characters.</p> 
+               <br>
+</div>
+<div class="form-group"> 
+        last name:
+        <input type="text" class="form-control" style="width:40%" pattern="[a-zA-Z-' ]*" minlength="2" required 
+        [(ngModel)]="_lastName" name="lastName" #myLastName="ngModel" >
+        <p class="alert alert-danger" *ngIf="myLastName?.errors?.required && myForm.submitted">This field is required.</p>
+        <p class="alert alert-danger" *ngIf="myLastName?.errors?.pattern && myForm.submitted">Only alphabetical characters are allowed.</p>
+        <p class="alert alert-danger" *ngIf="myLastName?.errors?.minlength && myForm.submitted">This entry must have at least two characters.</p> 
+    
+            <br>
+    
+</div>
+<div class="form-group"> 
+        Street Address:
+        <input type="text" class="form-control" style="width:40%" pattern="[a-zA-Z1-9]*" minlength="2" required
+         [(ngModel)]="_address" name="address" #streetAddress="ngModel">
+        <p class="alert alert-danger" *ngIf="streetAddress?.errors?.required && myForm.submitted">This field is required.</p>
+        <p class="alert alert-danger" *ngIf="streetAddress?.errors?.minlength && myForm.submitted">This entry must have at least two characters.</p>
+        <br>
+    
+</div>
+
+    <button type="submit" class="btn btn-default" 
+ >Submit Address</button>
+</form>
+
+
+
+    
+
+<br><hr><br>
+<select class="form-control" style="width:20%" [(ngModel)]="_productName">
+  <option  *ngFor="let product of _productsArray" value="{{product.productName}} {{product.price}}">
+  {{product.productName}}
+  ${{product.price}}
+  </option>
+</select>
+<input class="form-control" style="width:20%" placeholder="Quantity" [(ngModel)]="quantity" type="number" min="0" step="1" oninput="validity.valid||(value='');">Qty
+
+<input type="button" class="btn btn-primary" (click)=add_to_temp() value="Add to Cart">
+
+
+    <ul *ngFor="let i of temp_array">
+            <li>{{i.productName}} 
+            <span class="input-group">{{i.quantity*i.productPrice}}</span> 
+            <input type='button' class="btn btn-danger" value='delete' (click)=remove_from_temp(i)>
+                    
+            </li>
+            
+            </ul>
+            
+<hr/>
+
+
+<p ng-bind="_total">19.99</p>
+<div class="alert alert-warning" style="width:20%">Tax 7 %: $ {{ getTotal()*0.07  | number : '1.2-2'}}</div>
+<br>
+<div class="alert alert-success" style="width:20%" >Total: $ {{ getTotal() + (getTotal()*0.07) | number : '1.2-2'}}</div>
+Please type your total here to confirm<input type="text" [(ngModel)]="_total">
+
+<p class="alert alert-success" style="width:40%" *ngIf="myForm.submitted">Order for {{_firstName}} {{_lastName}} at {{_address}}</p>
+
+<input class="btn btn-primary" type="submit" value="Submit Order" (click)="createOrder()">
+
+</div>
+<br>
+<br>
+
+
+
+
+
+
+

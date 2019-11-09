@@ -1,0 +1,24 @@
+
+<h3>GET All Items</h3>
+<table>
+    <tr *ngFor="let order of _ordersArray">
+        <td>
+            {{order._id}}
+        </td>
+        <td>
+                {{order.address}}
+            </td>
+        <td>
+            {{order.firstName}}
+        </td>
+        <td>
+                {{order.lastName}}
+            </td>
+            <td>
+                {{order.total}}
+                </td>
+        <td>
+            <a href="#" (click)="deleteOrder(order._id)">Delete</a>
+        </td>
+    </tr>
+</table>
