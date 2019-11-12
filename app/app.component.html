@@ -1,5 +1,11 @@
+<style>
+td{
+        padding:12px;
+}
+</style>
+
 <nav>
-<a routerLink="/" routerLinkActive="active">Current Order</a>
+<a routerLink="/" routerLinkActive="active">Current Order</a> |
 <a routerLink="/order-history" routerLinkActive="active">Order history</a>
 
 </nav>
@@ -48,41 +54,61 @@
 
 
 
-    
+
 
 <br><hr><br>
-<select class="form-control" style="width:20%" [(ngModel)]="_productName">
+<select class="form-control" style="width:20%" [(ngModel)]="_productName" #select="ngModel" required>
   <option  *ngFor="let product of _productsArray" value="{{product.productName}} {{product.price}}">
   {{product.productName}}
   ${{product.price}}
   </option>
 </select>
-<input class="form-control" style="width:20%" placeholder="Quantity" [(ngModel)]="quantity" type="number" min="0" step="1" oninput="validity.valid||(value='');">Qty
+<input class="form-control" style="width:20%" placeholder="Quantity" [(ngModel)]="quantity" #qty="ngModel" type="number" min="0" step="1" oninput="validity.valid||(value='');" required>
+<br>
 
 <input type="button" class="btn btn-primary" (click)=add_to_temp() value="Add to Cart">
 
-
-    <ul *ngFor="let i of temp_array">
-            <li>{{i.productName}} 
-            <span class="input-group">{{i.quantity*i.productPrice}}</span> 
-            <input type='button' class="btn btn-danger" value='delete' (click)=remove_from_temp(i)>
-                    
-            </li>
-            
-            </ul>
+<table>
+        <tr>
+                <td></td>
+                <td>Qty</td>
+                <td>Price</td>
+                <td>Amount</td>
+        </tr>
+        <tr *ngFor="let i of temp_array">
+                
+                <td>{{i.productName}} </td>
+                <td>{{i.quantity}}</td>
+                <td>{{i.productPrice}}</td>
+                <td>$ {{i.quantity*i.productPrice}}</td>
+                <td><input type='button' class="btn btn-danger" value='delete' (click)=remove_from_temp(i)></td>
+        </tr>
+</table>
+   
             
 <hr/>
 
+<p class="alert alert-danger" *ngIf="select?.errors?.required && final_submit.submitted">You need to select a product</p>
+<p class="alert alert-danger" *ngIf="qty?.errors?.required && final_submit.submitted">quantity is required</p>
 
-<p ng-bind="_total">19.99</p>
-<div class="alert alert-warning" style="width:20%">Tax 7 %: $ {{ getTotal()*0.07  | number : '1.2-2'}}</div>
+
+
+
+
+
+<div class="alert alert-warning" style="width:40%">Subtotal: $ {{ getTotal() | number : '1.2-2'}}</div>
+<div class="alert alert-warning" style="width:40%">Tax 7 %: $ {{ getTotal()*0.07  | number : '1.2-2'}}</div>
 <br>
-<div class="alert alert-success" style="width:20%" >Total: $ {{ getTotal() + (getTotal()*0.07) | number : '1.2-2'}}</div>
-Please type your total here to confirm<input type="text" [(ngModel)]="_total">
+<div class="alert alert-success" style="width:40%" >Total: $ {{ getTotal() + (getTotal()*0.07) | number : '1.2-2'}}</div>
+<!-- Please type your total here to confirm<input type="text" [(ngModel)]="_total"> -->
 
 <p class="alert alert-success" style="width:40%" *ngIf="myForm.submitted">Order for {{_firstName}} {{_lastName}} at {{_address}}</p>
+<script>
+</script>
+<form #final_submit="ngForm" class="form-group">
+        <input class="btn btn-primary" type="submit" value="Submit Order" (click)="createOrder() ; refresh()">
 
-<input class="btn btn-primary" type="submit" value="Submit Order" (click)="createOrder()">
+</form>
 
 </div>
 <br>

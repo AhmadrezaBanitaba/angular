@@ -1,10 +1,19 @@
+<style>
+td {
+    padding: 12px;
+}
 
+</style>
 <h3>GET All Items</h3>
 <table>
+    <tr>
+        <td>Address</td>
+        <td>First</td>
+        <td>Last</td>
+        <td>Amount</td>
+    </tr>
     <tr *ngFor="let order of _ordersArray">
-        <td>
-            {{order._id}}
-        </td>
+
         <td>
                 {{order.address}}
             </td>
@@ -12,13 +21,13 @@
             {{order.firstName}}
         </td>
         <td>
-                {{order.lastName}}
+                {{order.lastName}} <span></span>
             </td>
             <td>
-                {{order.total}}
+                $ {{order.total | number : '1.2-2'}}
                 </td>
         <td>
-            <a href="#" (click)="deleteOrder(order._id)">Delete</a>
+            <a class="btn btn-danger" href="#" (click)="deleteOrder(order._id)">Delete</a>
         </td>
     </tr>
 </table>
