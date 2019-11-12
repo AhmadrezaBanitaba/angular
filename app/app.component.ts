@@ -27,7 +27,7 @@ export class AppComponent {
 _firstName: String;
 _lastName: String;
 _address: String;
-_total: 0;
+total: 0;
   quantity:number;
   subtotal:number;
   _errorMessage:String = "";
@@ -80,17 +80,19 @@ remove_from_temp(item) {
 
 
 getTotal(){
-  var _total = 0;
+  var total = 0;
   for(var i = 0; i < this.temp_array.length; i++){
       var product =this.temp_array[i];
-      _total += (product.productPrice * product.quantity);
+      total += (product.productPrice * product.quantity);
       
   }
-  return _total;
+  return total;
 }
 
 
-
+refresh(): void {
+  window.location.reload();
+}
 
 
 getAllOrders() {
@@ -130,7 +132,7 @@ createOrder(){
              firstName:  this._firstName,
              lastName:   this._lastName,
              address: this._address,
-             total: this._total
+             total: this.getTotal() + (this.getTotal()*0.07)
          })
      .subscribe(
          // Data is received from the post request.
